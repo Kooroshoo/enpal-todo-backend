@@ -1,0 +1,24 @@
+version: '3'
+services:
+  backend:
+    build: ./todo-backend   # Build from the Dockerfile in the todo-backend folder
+    ports:
+      - "3000:3000"         # Expose port 3000 so you can access the API
+    depends_on:
+      - db                  # Ensure the database service starts before the backend
+    environment:
+      - DB_HOST=db          # Database host set to the service name "db"
+      - DB_PORT=5432
+      - DB_USERNAME=your_username
+      - DB_PASSWORD=your_password
+      - DB_DATABASE=todo_db
+
+  db:
+    image: postgres:latest  # Use the official PostgreSQL image
+    restart: always
+    ports:
+      - "5432:5432"         # Expose PostgreSQL on port 5432
+    environment:
+      POSTGRES_USER: your_username
+      POSTGRES_PASSWORD: your_password
+      POSTGRES_DB: todo_db
